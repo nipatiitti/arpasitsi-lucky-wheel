@@ -41,7 +41,7 @@ const Wheel = () => {
                 <Button
                     p="8"
                     variant="outline"
-                    size="lg"
+                    size={['sm', 'md', 'lg']}
                     colorScheme="cyan"
                     textTransform="uppercase"
                     fontSize="2xl"

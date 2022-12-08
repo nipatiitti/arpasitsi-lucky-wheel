@@ -6,7 +6,8 @@
 .container {
     --index: 0;
     --middle-point: calc(100vh / 2);
-    --center-const: calc(var(--middle-point) - 220px);
+    --children-height: min(400px, 50vh);
+    --center-const: calc(var(--middle-point) - calc(calc(var(--children-height) / 2) + 20px));
 
     width: calc(100vw - 12rem);
     padding: 0 10rem;
@@ -17,5 +18,14 @@
 
     transition: transform 1s cubic-bezier(0.28, 1.05, 0.57, 0.94);
     will-change: transform;
-    transform: translateY(calc(calc(var(--index) * -440px) + var(--center-const)));
+    transform: translateY(
+        calc(calc(var(--index) * calc(-1 * calc(var(--children-height) + 40px))) + var(--center-const))
+    );
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: calc(100vw - 6rem);
+        padding: 0 3rem;
+    }
 }
