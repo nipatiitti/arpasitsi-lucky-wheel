@@ -1,5 +1,6 @@
 import { Button, Center, HStack, VStack } from '@chakra-ui/react'
 import { useMemo, useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import WheelPiece from '../components/WheelPiece'
 import { getAllItems, Item as IItem } from '../utils/itemStore'
 import { shuffleArray } from '../utils/suffle'
@@ -26,6 +27,8 @@ const Wheel = () => {
         const newSelection = Math.floor(Math.random() * flattedItems.length)
         setSelection(newSelection)
     }
+
+    if (!flattedItems.length) return <Navigate to="/admin" />
 
     return (
         <HStack w="100vw" h="100vh" overflow="hidden" pos="relative" justify="flex-end">
