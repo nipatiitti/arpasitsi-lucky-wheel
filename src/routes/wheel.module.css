@@ -1,0 +1,21 @@
+/*
+    Children height: 400px
+    Spacing between children: 40px;
+*/
+
+.container {
+    --index: 0;
+    --middle-point: calc(100vh / 2);
+    --center-const: calc(var(--middle-point) - 220px);
+
+    width: calc(100vw - 12rem);
+    padding: 0 10rem;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transition: transform 1s cubic-bezier(0.28, 1.05, 0.57, 0.94);
+    will-change: transform;
+    transform: translateY(calc(calc(var(--index) * -440px) + var(--center-const)));
+}
