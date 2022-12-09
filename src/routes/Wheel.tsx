@@ -1,8 +1,8 @@
 import { Button, Center, HStack, VStack } from '@chakra-ui/react'
 import { useMemo, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import WheelPiece from '../components/WheelPiece'
-import { getAllItems, Item as IItem } from '../utils/itemStore'
+import { getAllItems, Item as IItem, setAllItems } from '../utils/itemStore'
 import { shuffleArray } from '../utils/suffle'
 
 import styles from './wheel.module.css'
@@ -24,8 +24,32 @@ const Wheel = () => {
     }, [items])
 
     const handleSpin = () => {
-        const newSelection = Math.floor(Math.random() * flattedItems.length)
+        let newSelection = Math.floor(Math.random() * flattedItems.length)
+
+        if (flattedItems.length > 1) {
+            while (newSelection === selection) {
+                newSelection = Math.floor(Math.random() * flattedItems.length)
+            }
+        }
+
+        if (localStorage.getItem('removeMode') === 'true' && selection) removeHit(selection)
+
         setSelection(newSelection)
+    }
+
+    const removeHit = (index: number) => {
+        const item = flattedItems[index]
+        if (!item) return
+
+        const originalId = item.id.split('-')[0]
+        const newItems = items.map((item) => {
+            if (item.id === originalId) {
+                return { ...item, amount: item.amount - 1 }
+            }
+            return item
+        })
+        setAllItems(newItems)
+        setItems(newItems)
     }
 
     if (!flattedItems.length) return <Navigate to="/admin" />
@@ -49,6 +73,9 @@ const Wheel = () => {
                 >
                     Spin
                 </Button>
+                <Link to="/admin" style={{ position: 'absolute', top: 0, opacity: 0.2 }}>
+                    Admin
+                </Link>
             </Center>
         </HStack>
     )
